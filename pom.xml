@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.abs-models.abs-api</groupId>
+	<name>ABS Async Java 8 API</name>
+	<artifactId>abs-api</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.docs.directory>${project.build.directory}/docs</project.docs.directory>
+
+		<version.junit>4.11</version.junit>
+		<version.asciidoctor>0.1.4</version.asciidoctor>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<outputDirectory>${project.docs.directory}/apidocs</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>install</phase>
+						<goals>
+							<goal>javadoc</goal>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>${version.asciidoctor}</version>
+				<executions>
+					<execution>
+						<id>output-html</id>
+						<phase>package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${basedir}/src/main/docs/asciidoc</sourceDirectory>
+							<outputDirectory>${project.docs.directory}/reference</outputDirectory>
+							<backend>html5</backend>
+							<sourceHighlighter>highlightjs</sourceHighlighter>
+							<attributes>
+								<docVersion>${project.version}</docVersion>
+							</attributes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version.junit}</version>
+		</dependency>
+	</dependencies>
+
+	<scm>
+		<url>https://github.com/CrispOSS/abs-api.git</url>
+		<connection>https://github.com/CrispOSS/abs-api.git</connection>
+		<developerConnection>git@github.com:CrispOSS/abs-api.git</developerConnection>
+	</scm>
+
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>https://envisage.ifi.uio.no:8080/jenkins/job/abs-api</url>
+	</ciManagement>
+
+</project>
+

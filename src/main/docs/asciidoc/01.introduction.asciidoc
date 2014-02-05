@@ -1,0 +1,20 @@
+== Introduction
+
+ABS Async API is an implementation of ABS models asynchronous message passing using the features available in Java 8. 
+The design and implementation is driven by certain requirements and principles from the scope of ABS models and platform.
+
+ABS Async API introduces an independent Java library that can be freely used in any Java 8 compatible code base.
+The API implementation provides certain interfaces that allows Java objects to interact to one another through a message passing mechanism and process messages in an asynchronous and event-driven approach. 
+The implementation separates *invocation* of messages from *execution* of messages. 
+An invocation of a message to an object assures the delivery of the message to the receiver while execution of a message is the specifics of the message is processed. 
+Such separation increases the extensibility and pluggability of the implementation in each layer. 
+Morever, it evidently influences the performance of message processing and utilization of resources such as underlying Java threads.
+
+ABS Async API is designed in such way that is it ready to be used for ABS model code generations. 
+An ABS model can transformed into an implementation language such as Java. 
+As an ABS model may take advantage of asynchronous message passing, the generated code is expected to expose the same semantics. 
+The ABS Async API allows code generators to generate code lines using the API library to implement the asynchronous message passing at the level of Java 8. 
+
+ABS Async API realizes a one-to-one mapping from ABS asynchronous message passing to a Java 8 implementation. 
+Such mapping provides a base ground to be able to formally reason about and verify the code generated from ABS models on top of such API implementation.
+
