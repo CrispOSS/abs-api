@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
@@ -154,6 +155,7 @@ public class LocalContext implements Context {
 	public void stop() throws Exception {
 		notary.stop();
 		try {
+			executor.awaitTermination(5, TimeUnit.SECONDS);
 			executor.shutdownNow();
 		} catch (Exception e) {
 		}
