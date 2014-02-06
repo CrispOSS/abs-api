@@ -5,10 +5,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 /**
- * An actor reference is a reference that exposes a set of methods to
- * send messages to another actor reference. There are a number of
- * ways that a message would have meaning as an executable entity in
- * this implementation:
+ * An actor is a reference that exposes a set of methods to send
+ * messages to another actor. There are a number of ways that a
+ * message would have meaning as an executable entity in this
+ * implementation:
  * <ul>
  * <li>a method invocation exposed by
  * {@link #invoke(Actor, String, Object...)}
@@ -19,10 +19,9 @@ import java.util.concurrent.Future;
  * </ul>
  * 
  * <p>
- * Every actor reference is registered with an instance of
- * {@link Context}. A gathers different layers of the actor system to
- * be used by any actor reference such as routing or executing
- * messages.
+ * Every actor is registered with an instance of {@link Context}. A
+ * gathers different layers of the actor system to be used by any
+ * actor such as routing or executing messages.
  * 
  * <p>
  * This interface in this version exposes methods as {@code ask} which
@@ -39,7 +38,7 @@ import java.util.concurrent.Future;
 public interface Actor extends Reference, Comparable<Reference> {
 
 	/**
-	 * The prefix for all actor references created in a context.
+	 * The prefix for all actors created in a context.
 	 */
 	String NS = "abs://";
 
@@ -76,7 +75,9 @@ public interface Actor extends Reference, Comparable<Reference> {
 	 * A default implementation of {@link Reference#name()} that uses
 	 * {@link #NOBODY}.
 	 * 
-	 * @return the nobody name by default.
+	 * @implSpec the default implementation returns {@link NOBODY}'s
+	 *           name
+	 * @return the name of this actor
 	 */
 	@Override
 	default URI name() {
@@ -84,14 +85,12 @@ public interface Actor extends Reference, Comparable<Reference> {
 	}
 
 	/**
-	 * Provides the context of this actor reference. By default, it
-	 * uses the context from {@link SystemContext} which is expected
-	 * to be initialized in the beginning of an application using this
-	 * API.
+	 * Provides the context of this actor. By default, it uses the
+	 * context from {@link SystemContext} which is expected to be
+	 * initialized in the beginning of an application using this API.
 	 * 
 	 * @see SystemContext
-	 * @return the context to which this actor reference is registered
-	 *         with.
+	 * @return the context to which this actor is registered with.
 	 */
 	default Context context() {
 		return SystemContext.context;

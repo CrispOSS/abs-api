@@ -42,6 +42,11 @@
 				<version>2.9.1</version>
 				<configuration>
 					<outputDirectory>${project.docs.directory}/apidocs</outputDirectory>
+					<tags>
+						<tag>
+							<name>implSpec</name>
+						</tag>
+					</tags>
 				</configuration>
 				<executions>
 					<execution>
