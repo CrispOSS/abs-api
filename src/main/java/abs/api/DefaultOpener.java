@@ -92,14 +92,14 @@ public class DefaultOpener implements Opener {
 	 */
 	protected Runnable createEnvelopeTask(final Envelope envelope, final Object target) {
 		final Object msg = envelope.message();
-		if (msg instanceof Runnable) {
-			return fromRunnableEnvelope(envelope);
-		} else if (msg instanceof Callable) {
-			return fromCallableEnvelope(envelope);
-		} else if (target instanceof Behavior) {
+		if (target instanceof Behavior) {
 			return fromActorEnvelope(envelope, (Behavior) target);
 		} else if (msg instanceof MethodReference) {
 			return fromMethodReferenceEnvelope(envelope, target);
+		} else if (msg instanceof Runnable) {
+			return fromRunnableEnvelope(envelope);
+		} else if (msg instanceof Callable) {
+			return fromCallableEnvelope(envelope);
 		}
 		return null;
 	}
