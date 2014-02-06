@@ -3,13 +3,13 @@
 ABS Actor API in Java 8 is an implementation of [ABS actor modeling][1] language using Java 8 features.
 This implementation is part of [Envisage][2] project.
 
-To get started, checkout the source and 
+You can find the latest API documentation at 
 
-```
-mvn clean install
-```
+https://envisage.ifi.uio.no:8080/jenkins/job/abs-api/javadoc/
 
-Then browse the `docs` directory for the reference manual and API documentation.
+and the latest reference manual at
+
+https://envisage.ifi.uio.no:8080/jenkins/job/abs-api/Reference_Manual/
 
 # License and Copyright
 
