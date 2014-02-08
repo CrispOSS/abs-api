@@ -62,7 +62,11 @@ public class DefaultOpener implements Opener {
 			future.completeExceptionally(new IllegalArgumentException("Invalid message: "
 					+ envelope.message()));
 		} else {
-			executeEnvelopeTask(task);
+			try {
+				executeEnvelopeTask(task);
+			} catch (Exception e) {
+				future.completeExceptionally(e);
+			}
 		}
 		return (Future<V>) future;
 	}
