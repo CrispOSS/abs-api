@@ -3,5 +3,9 @@ Behrooz Nobakht <bnobakht@liacs.nl>
 {docVersion}
 :toc:
 :sectanchors:
+:numbered:
+:source-highlighter: highlightjs
 
 include::01.introduction.asciidoc[]
+include::02.gettingstarted.asciidoc[]
+include::references.asciidoc[]
