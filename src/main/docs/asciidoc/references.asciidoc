@@ -1,4 +1,4 @@
-== References
+## References
 
 The following is a list of references and citations in the manual.
 
@@ -6,4 +6,5 @@ The following is a list of references and citations in the manual.
 - [[[EclipseLuna]]] http://www.eclipse.org/downloads/index-developer.php
 - [[[EclipseLunaJava8]]] https://wiki.eclipse.org/JDT/Eclipse_Java_8_Support_(BETA)
 - [[[Java8]]] https://jdk8.java.net/download.html
+- [[[APILastBuild]]] https://envisage.ifi.uio.no:8080/jenkins/job/abs-api/lastSuccessfulBuild/
 

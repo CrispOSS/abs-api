@@ -1,4 +1,4 @@
-== Introduction
+## Introduction
 
 ABS Async API is an implementation of ABS models asynchronous message passing using the features available in Java 8. 
 The design and implementation is driven by certain requirements and principles from the scope of ABS models and platform.

@@ -1,6 +1,6 @@
-== Getting Started
+## Getting Started
 
-=== Development Environment
+### Development Environment
 
 To use ABS API you need to prepare an environment that supports Java features.
 
@@ -8,7 +8,25 @@ To use ABS API you need to prepare an environment that supports Java features.
 2. If you develop on Eclipse, install a milestone version of next eclipse 'Luna' <<EclipseLuna>>.
 3. To support Java 8 syntax on eclipse Luna, you need to install a beta version of 'JDK8 support' <<EclipseLunaJava8>>.
 
-=== A first example
+### Build from source
+
+To use the API, you can either download the 'latest build' <<APILastBuild>> or build it from source.
+
+To build from source, assuming that Git is available, checkout the source:
+
+[source,bash]
+----
+git clone https://github.com/CrispOSS/abs-api
+----
+
+And then, make a build using Maven 3+:
+
+[source,bash]
+----
+mvn clean install
+----
+
+### A first example
 
 The first example demonstrates how to implement the ``ping-pong'' example using ABS API.
 Let `IPing` and `IPong` be interfaces that define the interfaces.
