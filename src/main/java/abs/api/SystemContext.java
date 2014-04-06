@@ -26,8 +26,8 @@ public class SystemContext implements Context {
 
 	/** {@inheritDoc} */
 	@Override
-	public Actor newReference(String name, Object object) {
-		return context.newReference(name, object);
+	public Actor newActor(String name, Object object) {
+		return context.newActor(name, object);
 	}
 
 	/** {@inheritDoc} */

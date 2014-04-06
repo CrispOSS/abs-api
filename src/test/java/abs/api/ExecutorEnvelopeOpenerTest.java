@@ -46,8 +46,8 @@ public class ExecutorEnvelopeOpenerTest {
 		Sequencer sequencer = Sequencer.of(0L);
 		QueueOpener opener = new SequencingExecutorEnvelopeOpener(tasks, executor,
 				sequencer);
-		Reference sender = context.newReference("s", new Object());
-		Reference receiver = context.newReference("r", new Object());
+		Reference sender = context.newActor("s", new Object());
+		Reference receiver = context.newActor("r", new Object());
 		MethodReference method = MethodReference.of(receiver, "hashCode");
 
 		for (int i = 1; i <= 5; ++i) {

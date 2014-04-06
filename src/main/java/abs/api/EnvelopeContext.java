@@ -63,8 +63,8 @@ public interface EnvelopeContext extends Context {
 			return envelope;
 		}
 
-		public Actor newReference(String name, Object object) {
-			return context.newReference(name, object);
+		public Actor newActor(String name, Object object) {
+			return context.newActor(name, object);
 		}
 
 		public Router router() {

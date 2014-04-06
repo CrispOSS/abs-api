@@ -11,7 +11,13 @@ package abs.api;
  */
 public class LocalRouter implements Router {
 
-	private final Context context;
+	private Context context;
+
+	/**
+	 * Default ctor.
+	 */
+	public LocalRouter() {
+	}
 
 	/**
 	 * <p>
@@ -37,6 +43,11 @@ public class LocalRouter implements Router {
 		// be a Runnable or a Callable that can be executed
 		// independent of the receiver of the message.
 		inbox.post(envelope, target);
+	}
+
+	@Override
+	public void bind(Context context) {
+		this.context = context;
 	}
 
 	/**

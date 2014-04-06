@@ -7,13 +7,12 @@ package abs.api;
  * <ul>
  * <li>an {@link Router} responsible to route the messages to their
  * recipients. Routing of a message starts from
- * {@link Actor#ask(Actor, Object)} that delegates to its bound
- * context.
- * <li>a {@link Notary} that acts as a registry of actor references
- * and object in the concurrent system.
+ * {@link Actor#ask(Actor, Object)} that delegates to its bound context.
+ * <li>a {@link Notary} that acts as a registry of actor references and
+ * object in the concurrent system.
  * <li>possibly a set of {@link Inbox} instances each of which (or
- * mutually) maintain a place holder to send the messages to the
- * owning recipients.
+ * mutually) maintain a place holder to send the messages to the owning
+ * recipients.
  * <li>at least one {@link Opener} that eventually is expected to open
  * the sent message and allow the future result to be used.
  * </ul>
@@ -46,7 +45,7 @@ public interface Context extends Lifecycle {
 	 * @return the newly created actor reference or possibly an
 	 *         unchecked exception
 	 */
-	Actor newReference(String name, Object object);
+	Actor newActor(String name, Object object);
 
 	/**
 	 * Provides the context's router instance.
@@ -78,17 +77,17 @@ public interface Context extends Lifecycle {
 	 * 
 	 * @param reference
 	 *            the reference for whom the openener is needed
-	 * @return an instance of envelope opener that can open messages
-	 *         for the reference. If {@code null} is returned, it is
-	 *         not known how messages will be opened for the reference
-	 *         in question.
+	 * @return an instance of envelope opener that can open messages for
+	 *         the reference. If {@code null} is returned, it is not
+	 *         known how messages will be opened for the reference in
+	 *         question.
 	 */
 	Opener opener(Reference reference);
 
 	/**
 	 * Identifies a reference with which a target binding object is
-	 * registered in this context. It is a typical implementation to
-	 * use {@link Notary} for this purpose but it can be overriden.
+	 * registered in this context. It is a typical implementation to use
+	 * {@link Notary} for this purpose but it can be overriden.
 	 * 
 	 * @param object
 	 *            the target binding object in question

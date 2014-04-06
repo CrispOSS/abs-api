@@ -5,8 +5,8 @@ package abs.api;
  * {@link abs.api.Context} to be created.
  *
  * <p>
- * Note that all of the specified classes to be used for the creation
- * of the context are expected to have a <i>default</i> constructor.
+ * Note that all of the specified classes to be used for the creation of
+ * the context are expected to have a <i>default</i> constructor.
  *
  * @author Behrooz Nobakht
  * @since 1.0
@@ -15,36 +15,42 @@ package abs.api;
 public interface Configuration {
 
 	/**
-	 * Provides the type of the router of the context.
+	 * Provides the router of the context.
 	 *
-	 * @return the {@link java.lang.Class} of the
-	 *         {@link abs.api.Router} of the context
+	 * @return the {@link abs.api.Router} of the context
 	 */
-	Class<? extends Router> getRouter();
+	Router getRouter();
 
 	/**
 	 * Provides the type of the opener of the context
 	 *
-	 * @return the {@link java.lang.Class} of the
-	 *         {@link abs.api.Opener} of the context
+	 * @return the {@link java.lang.Class} of the {@link abs.api.Opener}
+	 *         of the context
 	 */
 	Class<? extends Opener> getOpener();
 
 	/**
 	 * Provides the type of the inbox(es) of the context
 	 *
-	 * @return the {@link java.lang.Class} of the
-	 *         {@link abs.api.Inbox} of the context
+	 * @return the {@link java.lang.Class} of the {@link abs.api.Inbox}
+	 *         of the context
 	 */
 	Class<? extends Inbox> getInbox();
 
 	/**
 	 * Provides the type of notary of the context
 	 *
-	 * @return the {@link java.lang.Class} of the
-	 *         {@link abs.api.Notary} of the context
+	 * @return the {@link java.lang.Class} of the {@link abs.api.Notary}
+	 *         of the context
 	 */
 	Class<? extends Notary> getNotary();
+
+	/**
+	 * Provides the reference factory of the context.
+	 * 
+	 * @return the {@link ReferenceFactory} of the context
+	 */
+	ReferenceFactory getReferenceFactory();
 
 	/**
 	 * Creates an instance of
@@ -63,16 +69,17 @@ public interface Configuration {
 	 */
 	static class ConfigurationBuilder {
 
-		private Class<? extends Router> envelopeRouterClass = LocalRouter.class;
+		private Router envelopeRouter = null;
 		private Class<? extends Opener> envelopeOpenerClass = DefaultOpener.class;
 		private Class<? extends Inbox> inboxClass = AsyncInbox.class;
 		private Class<? extends Notary> notaryClass = LocalNotary.class;
+		private ReferenceFactory referenceFactory = ReferenceFactory.DEFAULT;
 
 		ConfigurationBuilder() {
 		}
 
-		public ConfigurationBuilder withEnvelopeRouter(Class<? extends Router> router) {
-			this.envelopeRouterClass = router;
+		public ConfigurationBuilder withEnvelopeRouter(Router router) {
+			this.envelopeRouter = router;
 			return this;
 		}
 
@@ -91,30 +98,38 @@ public interface Configuration {
 			return this;
 		}
 
+		public ConfigurationBuilder withReferenceFactory(ReferenceFactory referenceFactory) {
+			this.referenceFactory = referenceFactory;
+			return this;
+		}
+
 		public Configuration build() {
-			return new SimpleConfiguration(envelopeRouterClass, envelopeOpenerClass,
-					inboxClass, this.notaryClass);
+			return new SimpleConfiguration(envelopeRouter, envelopeOpenerClass, inboxClass,
+					notaryClass, referenceFactory);
 		}
 
 		private static class SimpleConfiguration implements Configuration {
 
-			private final Class<? extends Router> envelopeRouterClass;
+			private final Router envelopeRouter;
 			private final Class<? extends Opener> envelopeOpenerClass;
 			private final Class<? extends Inbox> inboxClass;
 			private final Class<? extends Notary> notaryClass;
+			private final ReferenceFactory referenceFactory;
 
-			public SimpleConfiguration(Class<? extends Router> envelopeRouterClass,
+			public SimpleConfiguration(Router envelopeRouter,
 					Class<? extends Opener> envelopeOpenerClass,
-					Class<? extends Inbox> inboxClass, Class<? extends Notary> notaryClass) {
-				this.envelopeRouterClass = envelopeRouterClass;
+					Class<? extends Inbox> inboxClass, Class<? extends Notary> notaryClass,
+					ReferenceFactory referenceFactory) {
+				this.envelopeRouter = envelopeRouter;
 				this.envelopeOpenerClass = envelopeOpenerClass;
 				this.inboxClass = inboxClass;
 				this.notaryClass = notaryClass;
+				this.referenceFactory = referenceFactory;
 			}
 
 			@Override
-			public Class<? extends Router> getRouter() {
-				return this.envelopeRouterClass;
+			public Router getRouter() {
+				return this.envelopeRouter;
 			}
 
 			@Override
@@ -130,6 +145,11 @@ public interface Configuration {
 			@Override
 			public Class<? extends Notary> getNotary() {
 				return this.notaryClass;
+			}
+
+			@Override
+			public ReferenceFactory getReferenceFactory() {
+				return referenceFactory;
 			}
 
 		}

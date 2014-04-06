@@ -10,10 +10,10 @@ import javax.annotation.PostConstruct;
 
 /**
  * A local context provides a default implementation of
- * {@link abs.api.Context} using a default
- * {@link abs.api.Configuration} or a provided configuration that
- * utilizes {@link java.util.ServiceLoader} to provision instances
- * based on the configuration classes.
+ * {@link abs.api.Context} using a default {@link abs.api.Configuration}
+ * or a provided configuration that utilizes
+ * {@link java.util.ServiceLoader} to provision instances based on the
+ * configuration classes.
  *
  * @see Context
  * @see Configuration
@@ -28,6 +28,7 @@ public class LocalContext implements Context {
 	private Inbox inbox;
 	private Notary notary;
 	private ExecutorService executor;
+	private ReferenceFactory referenceFactory;
 
 	/**
 	 * <p>
@@ -61,17 +62,18 @@ public class LocalContext implements Context {
 	public void initialize() throws Exception {
 		this.executor = Executors.newWorkStealingPool();
 
-		ServiceLoader<Router> routerLoader = ServiceLoader.load(Router.class);
-		for (Iterator<Router> it = routerLoader.iterator(); it.hasNext();) {
-			Router router = it.next();
-			if (router.getClass() == configuration.getRouter()
-					|| configuration.getRouter().isAssignableFrom(router.getClass())) {
+		if (configuration.getRouter() != null) {
+			this.router = configuration.getRouter();
+		} else {
+			ServiceLoader<Router> routerLoader = ServiceLoader.load(Router.class);
+			for (Iterator<Router> it = routerLoader.iterator(); it.hasNext();) {
+				Router router = it.next();
 				this.router = router;
 				break;
 			}
-		}
-		if (this.router == null) {
-			this.router = new LocalRouter(this);
+			if (this.router == null) {
+				this.router = new LocalRouter(this);
+			}
 		}
 
 		ServiceLoader<Opener> openerLoader = ServiceLoader.load(Opener.class);
@@ -112,13 +114,16 @@ public class LocalContext implements Context {
 		if (this.notary == null) {
 			this.notary = new LocalNotary();
 		}
+
+		this.referenceFactory = configuration.getReferenceFactory();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public Actor newReference(String name, Object object) {
+	public Actor newActor(String name, Object object) {
 		try {
-			Actor ref = ContextActor.of(name, this);
+			final Reference reference = referenceFactory.create(name);
+			final Actor ref = ContextActor.of(reference, this);
 			notary.add(ref, object);
 			return ref;
 		} catch (RuntimeException e) {

@@ -9,14 +9,12 @@ package abs.api;
  * @author Behrooz Nobakht
  * @since 1.0
  */
-@FunctionalInterface
-public interface Router {
+public interface Router extends Contextual {
 
 	/**
 	 * Ensures that the provided message enveloped is received by an
-	 * object that knows how to open it. The object here can be an
-	 * inbox or an opener of the envelope and is left to the
-	 * implementation.
+	 * object that knows how to open it. The object here can be an inbox
+	 * or an opener of the envelope and is left to the implementation.
 	 *
 	 * @param envelope
 	 *            the envelope that should be routed

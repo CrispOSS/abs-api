@@ -32,8 +32,8 @@ public class DefaultEnvelopeOpenerTest {
 	public void testExecuteMethodReference() throws Exception {
 		final Object object = new Object();
 		final Integer result = object.hashCode();
-		Reference from = context.newReference("a", new Object());
-		Reference to = context.newReference("b", object);
+		Reference from = context.newActor("a", new Object());
+		Reference to = context.newActor("b", object);
 		MethodReference message = MethodReference.of(to, "hashCode");
 		Envelope e = new SimpleEnvelope(from, to, message);
 		DefaultOpener p = new DefaultOpener();
@@ -46,8 +46,8 @@ public class DefaultEnvelopeOpenerTest {
 
 	@Test
 	public void testExecuteRunnable() throws Exception {
-		Reference from = context.newReference("a", new Object());
-		Reference to = context.newReference("b", new Object());
+		Reference from = context.newActor("a", new Object());
+		Reference to = context.newActor("b", new Object());
 		Runnable message = to::name;
 		Envelope e = new SimpleEnvelope(from, to, message);
 		Opener p = new DefaultOpener();
@@ -60,8 +60,8 @@ public class DefaultEnvelopeOpenerTest {
 
 	@Test
 	public void testExecuteCallable() throws Exception {
-		Reference from = context.newReference("a", new Object());
-		Reference to = context.newReference("b", new Object());
+		Reference from = context.newActor("a", new Object());
+		Reference to = context.newActor("b", new Object());
 		Callable<?> message = to::name;
 		Envelope e = new SimpleEnvelope(from, to, message);
 		Opener p = new DefaultOpener();
@@ -74,8 +74,8 @@ public class DefaultEnvelopeOpenerTest {
 
 	@Test
 	public void testExecuteBehavior() throws Exception {
-		Reference from = context.newReference("a", new Object());
-		Actor to = context.newReference("b", new Object());
+		Reference from = context.newActor("a", new Object());
+		Actor to = context.newActor("b", new Object());
 		BehaviorActor toActor = new BehaviorActor(to);
 		String message = UUID.randomUUID().toString();
 		Envelope e = new SimpleEnvelope(from, toActor, message);
@@ -89,8 +89,8 @@ public class DefaultEnvelopeOpenerTest {
 
 	@Test(expected = ExecutionException.class)
 	public void testExecuteWithException() throws Exception {
-		Reference from = context.newReference("a", new Object());
-		Reference to = context.newReference("b", new Object());
+		Reference from = context.newActor("a", new Object());
+		Reference to = context.newActor("b", new Object());
 		final RuntimeException x = new RuntimeException("x");
 		Runnable message = () -> {
 			throw x;
