@@ -33,4 +33,22 @@ public interface Reference extends Serializable, Comparable<Reference> {
 	default int compareTo(Reference o) {
 		return name().compareTo(o.name());
 	}
+	
+	/**
+	 * @param name
+	 * @return
+	 */
+	static Reference from(final String name) {
+		return new Reference() {
+			
+			private static final long serialVersionUID = 1L;
+			
+			private final URI uri = URI.create(name);
+
+			@Override
+			public URI name() {
+				return uri;
+			}
+		};
+	}
 }

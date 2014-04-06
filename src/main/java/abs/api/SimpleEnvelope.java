@@ -6,7 +6,7 @@ package abs.api;
  * @author Behrooz Nobakht
  * @since 1.0
  */
-class SimpleEnvelope implements Envelope {
+public class SimpleEnvelope implements Envelope {
 
 	private static final Sequencer SEQUENCER = Sequencer.of(0L);
 

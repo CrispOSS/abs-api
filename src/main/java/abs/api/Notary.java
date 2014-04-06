@@ -56,4 +56,12 @@ public interface Notary extends Lifecycle {
 	 */
 	Reference get(Object object);
 
+	/**
+	 * Provides the size of the notary in terms of the count of the
+	 * object holding.
+	 * 
+	 * @return the count of the notary
+	 */
+	long size();
+
 }

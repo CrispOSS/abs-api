@@ -58,7 +58,7 @@ interface ContextActor extends Actor {
 		}
 
 		@Override
-		public URI name() {
+		public final URI name() {
 			return uri;
 		}
 

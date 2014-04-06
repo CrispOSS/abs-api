@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * An in-memory implementation of Notary. Note that this
- * implementation uses {@link java.util.IdentityHashMap} to implement
+ * An in-memory implementation of Notary. Note that this implementation
+ * uses {@link java.util.IdentityHashMap} to implement
  * {@link #get(Reference)}. As part of the life cycle, the local
  * registry is wiped when this instance is stopped.
  *
@@ -67,6 +67,12 @@ public class LocalNotary implements Notary {
 	public void stop() throws Exception {
 		refs.clear();
 		ids.clear();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public long size() {
+		return refs.size();
 	}
 
 }
