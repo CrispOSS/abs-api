@@ -131,7 +131,10 @@ public interface Actor extends Reference, Comparable<Reference> {
 
 	/**
 	 * Sends a message to a reference.
-	 * 
+	 *
+	 * @param <V>
+	 *            the type of the future value of the response of the
+	 *            message
 	 * @param to
 	 *            the receiver of the message
 	 * @param message

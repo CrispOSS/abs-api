@@ -22,7 +22,6 @@
 		<project.docs.directory>${project.build.directory}/docs</project.docs.directory>
 
 		<version.junit>4.11</version.junit>
-		<version.asciidoctor>0.1.4</version.asciidoctor>
 	</properties>
 
 	<build>
@@ -55,29 +54,6 @@
 						<goals>
 							<goal>javadoc</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.asciidoctor</groupId>
-				<artifactId>asciidoctor-maven-plugin</artifactId>
-				<version>${version.asciidoctor}</version>
-				<executions>
-					<execution>
-						<id>output-html</id>
-						<phase>package</phase>
-						<goals>
-							<goal>process-asciidoc</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${basedir}/src/main/docs/asciidoc</sourceDirectory>
-							<outputDirectory>${project.docs.directory}/reference</outputDirectory>
-							<backend>html5</backend>
-							<sourceHighlighter>highlightjs</sourceHighlighter>
-							<attributes>
-								<docVersion>${project.version}</docVersion>
-							</attributes>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

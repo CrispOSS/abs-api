@@ -35,8 +35,11 @@ public interface Reference extends Serializable, Comparable<Reference> {
 	}
 
 	/**
+	 * Creates an instance of reference using the provided name.
+	 * 
 	 * @param name
-	 * @return
+	 *            the name of the reference
+	 * @return the reference created with name
 	 */
 	static Reference from(final String name) {
 		return new Reference() {
