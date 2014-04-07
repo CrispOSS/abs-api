@@ -7,9 +7,8 @@ import java.util.concurrent.Future;
 
 /**
  * An actor is a reference that exposes a set of methods to send
- * messages to another actor. There are a number of ways that a
- * message would have meaning as an executable entity in this
- * implementation:
+ * messages to another actor. There are a number of ways that a message
+ * would have meaning as an executable entity in this implementation:
  * <ul>
  * <li>a method invocation exposed by
  * {@link #invoke(Actor, String, Object...)}
@@ -21,8 +20,8 @@ import java.util.concurrent.Future;
  * 
  * <p>
  * Every actor is registered with an instance of {@link Context}. A
- * gathers different layers of the actor system to be used by any
- * actor such as routing or executing messages.
+ * gathers different layers of the actor system to be used by any actor
+ * such as routing or executing messages.
  * 
  * <p>
  * This interface in this version exposes methods as {@code ask} which
@@ -70,6 +69,11 @@ public interface Actor extends Reference, Comparable<Reference> {
 			}
 			return name.equals(((Reference) obj).name());
 		};
+
+		@Override
+		public String toString() {
+			return name.toASCIIString();
+		}
 	};
 
 	/**
@@ -94,7 +98,7 @@ public interface Actor extends Reference, Comparable<Reference> {
 	 * @return the context to which this actor is registered with.
 	 */
 	default Context context() {
-		return SystemContext.context;
+		return SystemContext.context();
 	}
 
 	/**
@@ -105,8 +109,7 @@ public interface Actor extends Reference, Comparable<Reference> {
 	 * @see Router
 	 * 
 	 * @param <V>
-	 *            the type of the result expected from the future
-	 *            value
+	 *            the type of the result expected from the future value
 	 * @param to
 	 *            the receiver of the message
 	 * @param message
@@ -121,20 +124,34 @@ public interface Actor extends Reference, Comparable<Reference> {
 	 */
 	default <V> Future<V> ask(Actor to, Object message) {
 		final Actor receiver = NOBODY.equals(to) ? (Actor) context().reference(to) : to;
-		final Envelope envelope = new SimpleEnvelope((Reference) this, receiver, message);
+		final Envelope envelope = new SimpleEnvelope(self(), receiver, message);
+		ForkJoinPool.commonPool().execute(() -> context().router().route(envelope));
+		return envelope.response();
+	}
+
+	/**
+	 * Sends a message to a reference.
+	 * 
+	 * @param to
+	 *            the receiver of the message
+	 * @param message
+	 *            the message itself
+	 * @return the future value to capture the result of the message
+	 */
+	default <V> Future<V> send(Reference to, Object message) {
+		final Reference from = self();
+		final Envelope envelope = new SimpleEnvelope(from, to, message);
 		ForkJoinPool.commonPool().execute(() -> context().router().route(envelope));
 		return envelope.response();
 	}
 
 	/**
 	 * A convenient method to ask a method invocation from this actor
-	 * reference. Delegates to
-	 * {@link #invoke(Actor, String, Object...)} with {@code this}
-	 * parameter.
+	 * reference. Delegates to {@link #invoke(Actor, String, Object...)}
+	 * with {@code this} parameter.
 	 * 
 	 * @param <V>
-	 *            the type of the result expected from the future
-	 *            value
+	 *            the type of the result expected from the future value
 	 * @param method
 	 *            the name of the method to be invoked
 	 * @param args
@@ -147,14 +164,13 @@ public interface Actor extends Reference, Comparable<Reference> {
 	}
 
 	/**
-	 * Sends a message to the recipient to invoke a specific method
-	 * with specific arguments expected in the receiver object.
-	 * Delegates to {@link #ask(Actor, Object)} with an instance of
+	 * Sends a message to the recipient to invoke a specific method with
+	 * specific arguments expected in the receiver object. Delegates to
+	 * {@link #ask(Actor, Object)} with an instance of
 	 * {@link MethodReference} by default.
 	 * 
 	 * @param <V>
-	 *            the type of the result expected from the future
-	 *            value
+	 *            the type of the result expected from the future value
 	 * @param to
 	 *            the receiver of the message to invoke the method
 	 * @param method
@@ -170,6 +186,19 @@ public interface Actor extends Reference, Comparable<Reference> {
 	}
 
 	/**
+	 * Provides access to the reference registered for this actor
+	 * object.
+	 * 
+	 * @return the reference of this object
+	 */
+	default Reference self() {
+		if (this instanceof ContextActor) {
+			return this;
+		}
+		return context().reference(this);
+	}
+
+	/**
 	 * Provides the sender of the <i>current</i> message that is being
 	 * invoked/processed by the receiver object.
 	 * 
@@ -180,21 +209,20 @@ public interface Actor extends Reference, Comparable<Reference> {
 	 * @return the sender of the current message or {@link #NOBODY} if
 	 *         there is no sender for this message
 	 */
-	default Actor sender() {
+	default Reference sender() {
 		try {
+			final Reference ref = self();
+			if (ref instanceof ContextActor) {
+				ContextActor caref = (ContextActor) ref;
+				Context context = caref.context();
+				if (context != null || context instanceof EnvelopeContext) {
+					return ((EnvelopeContext) context).sender();
+				}
+			}
 			if (!NOBODY.equals(this)) {
 				Context context = context();
 				if (context != null && context instanceof EnvelopeContext) {
 					return ((EnvelopeContext) context).sender();
-				}
-			} else {
-				Reference ref = context().reference(this);
-				if (ref instanceof ContextActor) {
-					ContextActor caref = (ContextActor) ref;
-					Context context = caref.context();
-					if (context != null || context instanceof EnvelopeContext) {
-						return ((EnvelopeContext) context).sender();
-					}
 				}
 			}
 		} catch (Exception e) {

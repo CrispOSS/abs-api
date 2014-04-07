@@ -26,13 +26,12 @@ public class OrderedThreadPoolExecutor extends ThreadPoolExecutor {
 	 *            a {@link java.util.concurrent.BlockingQueue} object.
 	 */
 	public OrderedThreadPoolExecutor(final BlockingQueue<Runnable> queue) {
-		super(NCPU, NCPU * NCPU * NCPU, 1, TimeUnit.MINUTES, queue,
-				new RejectedExecutionHandler() {
-					@Override
-					public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-						// ignore
-					}
-				});
+		super(1, NCPU, 1, TimeUnit.MINUTES, queue, new RejectedExecutionHandler() {
+			@Override
+			public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+				// ignore
+			}
+		});
 	}
 
 	/** {@inheritDoc} */

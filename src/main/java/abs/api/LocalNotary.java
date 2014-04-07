@@ -49,6 +49,15 @@ public class LocalNotary implements Notary {
 		return ids.get(object);
 	}
 
+	@Override
+	public Reference identify(Reference reference) {
+		URI key = key(reference);
+		if (refs.containsKey(key)) {
+			return ids.get(refs.get(key));
+		}
+		return null;
+	}
+
 	/**
 	 * <p>
 	 * key.

@@ -50,11 +50,22 @@ public interface Notary extends Lifecycle {
 	 * Identifies a reference for an object.
 	 *
 	 * @param object
-	 *            the object to find a refefence for
+	 *            the object to find a reference for
 	 * @return the registered reference in the notary with which the
 	 *         object is registered; otherwise {@code null}
 	 */
 	Reference get(Object object);
+
+	/**
+	 * Finds the actual reference that is identical to the provided
+	 * reference.
+	 * 
+	 * @param reference
+	 *            the provided reference
+	 * @return the actual referenc or {@code null} if no such reference
+	 *         exists.
+	 */
+	Reference identify(Reference reference);
 
 	/**
 	 * Provides the size of the notary in terms of the count of the

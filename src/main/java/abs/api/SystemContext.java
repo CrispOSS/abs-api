@@ -7,13 +7,16 @@ package abs.api;
  * @author Behrooz Nobakht
  * @since 1.0
  */
-public class SystemContext implements Context {
+public class SystemContext implements Context, Contextual {
 
-	/** Constant <code>context</code> */
-	public static final Context context;
+	private static Context context;
 
 	static {
 		context = new LocalContext();
+	}
+
+	public static Context context() {
+		return context;
 	}
 
 	/**
@@ -58,6 +61,13 @@ public class SystemContext implements Context {
 	@Override
 	public void stop() throws Exception {
 		context.stop();
+	}
+
+	@Override
+	public void bind(Context context) {
+		synchronized (SystemContext.context) {
+			SystemContext.context = context;
+		}
 	}
 
 }

@@ -5,8 +5,8 @@ package abs.api;
  * based on a single bound {@link Envelope} instance. The main purpose
  * is to create a design pattern that facilitates provisioning of a
  * sender actor reference in the period an envelope is being opened by
- * its recipient. An envelope context is always bound to one instance
- * of envelope and one instance of context.
+ * its recipient. An envelope context is always bound to one instance of
+ * envelope and one instance of context.
  * 
  * @author Behrooz Nobakht
  * @since 1.0
@@ -21,18 +21,18 @@ public interface EnvelopeContext extends Context {
 	Envelope envelope();
 
 	/**
-	 * The sender of an envelope context naturally is the sender of
-	 * the bound envelope.
+	 * The sender of an envelope context naturally is the sender of the
+	 * bound envelope.
 	 * 
 	 * @return the sender of the envelope of this context
 	 */
-	default Actor sender() {
-		return (Actor) envelope().from();
+	default Reference sender() {
+		return envelope().from();
 	}
 
 	/**
-	 * Creates an instance of {@link EnvelopeContext} with the
-	 * envelope and context provided.
+	 * Creates an instance of {@link EnvelopeContext} with the envelope
+	 * and context provided.
 	 * 
 	 * @param envelope
 	 *            the envelope of the new context

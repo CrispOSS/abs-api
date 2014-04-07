@@ -60,7 +60,18 @@ public class LocalRouter implements Router {
 	 * @return a {@link java.lang.Object} object.
 	 */
 	protected Object findTarget(Reference to) {
-		return context.notary().get(to);
+		Object object = context.notary().get(to);
+		if (object != null) {
+			return object;
+		}
+		// The actor itself can be a reference
+		if (to instanceof Actor) {
+			Reference actor = (Actor) to;
+			if (actor.name().equals(to.name())) {
+				return actor;
+			}
+		}
+		return null;
 	}
 
 	/**
