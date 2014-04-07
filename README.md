@@ -9,7 +9,7 @@ https://envisage.ifi.uio.no:8080/jenkins/job/abs-api/javadoc/
 
 and the latest reference manual at
 
-https://envisage.ifi.uio.no:8080/jenkins/job/abs-api/Reference_Manual/
+https://envisage.ifi.uio.no:8080/jenkins/job/abs-api-docs/Reference_Manual/
 
 # License and Copyright
 
