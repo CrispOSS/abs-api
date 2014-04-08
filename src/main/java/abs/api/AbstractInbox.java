@@ -4,8 +4,8 @@ import java.util.concurrent.Future;
 
 /**
  * An abstract implementation of inbox that uses an instance of
- * {@link Context} to resolve a proper {@link Opener} for each
- * envelope and use the opener to open the envelope.
+ * {@link Context} to resolve a proper {@link Opener} for each envelope
+ * and use the opener to open the envelope.
  * 
  * @see Inbox
  * @see DispatchInbox
@@ -15,20 +15,16 @@ import java.util.concurrent.Future;
  * @author Behrooz Nobakht
  * @since 1.0
  */
-class AbstractInbox implements Inbox {
+public class AbstractInbox implements Inbox {
 
-	protected final Context context;
+	protected Context context;
 
 	/**
 	 * <p>
 	 * Constructor for AbstractInbox.
 	 * </p>
-	 *
-	 * @param context
-	 *            a {@link abs.api.Context} object.
 	 */
-	public AbstractInbox(Context context) {
-		this.context = context;
+	public AbstractInbox() {
 	}
 
 	/** {@inheritDoc} */
@@ -38,6 +34,12 @@ class AbstractInbox implements Inbox {
 		onOpen(envelope, opener, receiver);
 		open(opener, envelope, receiver);
 		return envelope.response();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void bind(Context context) {
+		this.context = context;
 	}
 
 	/**

@@ -27,21 +27,21 @@ interface ContextActor extends Actor, Contextual {
 	 * @return an instance of {@link abs.api.ContextActor}
 	 */
 	static ContextActor of(Reference name, Context context) {
-		return new LocalContextActorReference(name, context);
+		return new LocalContextActor(name, context);
 	}
 
 	/**
 	 * An implementation of {@link ContextActor} that is suitable for a
 	 * local context.
 	 */
-	static class LocalContextActorReference implements ContextActor {
+	static class LocalContextActor implements ContextActor {
 
 		private static final long serialVersionUID = 5903306592703776997L;
 
 		private transient Context context;
 		private final Reference name;
 
-		public LocalContextActorReference(Reference name, Context context) {
+		public LocalContextActor(Reference name, Context context) {
 			this.name = name;
 			this.context = context;
 		}
@@ -64,6 +64,11 @@ interface ContextActor extends Actor, Contextual {
 		@Override
 		public int hashCode() {
 			return name().hashCode();
+		}
+
+		@Override
+		public String toString() {
+			return name().toASCIIString();
 		}
 
 	}

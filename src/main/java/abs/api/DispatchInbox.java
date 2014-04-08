@@ -7,8 +7,8 @@ import java.util.concurrent.Future;
 
 /**
  * A dispatch inbox maintains an in-memory mapping of separate inboxes
- * for each recipient. It delegates posting of an envelope to the
- * proper inbox and creates them on-the-fly.
+ * for each recipient. It delegates posting of an envelope to the proper
+ * inbox and creates them on-the-fly.
  *
  * @author Behrooz Nobakht
  * @since 1.0
@@ -23,14 +23,10 @@ public class DispatchInbox extends AbstractInbox {
 	 * Constructor for DispatchInbox.
 	 * </p>
 	 *
-	 * @param context
-	 *            a {@link abs.api.Context} object.
 	 * @param executor
-	 *            a {@link java.util.concurrent.ExecutorService}
-	 *            object.
+	 *            a {@link java.util.concurrent.ExecutorService} object.
 	 */
-	public DispatchInbox(Context context, ExecutorService executor) {
-		super(context);
+	public DispatchInbox(ExecutorService executor) {
 		this.executor = executor;
 		this.inboxes = new ConcurrentHashMap<>(8192);
 	}
@@ -56,7 +52,8 @@ public class DispatchInbox extends AbstractInbox {
 		if (inbox != null) {
 			return inbox;
 		}
-		inbox = new QueueInbox(context, getExecutor());
+		inbox = new QueueInbox(getExecutor());
+		inbox.bind(context);
 		inboxes.put(owner, inbox);
 		return inbox;
 	}

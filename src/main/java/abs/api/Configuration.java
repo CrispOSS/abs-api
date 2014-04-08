@@ -22,20 +22,18 @@ public interface Configuration {
 	Router getRouter();
 
 	/**
-	 * Provides the type of the opener of the context
+	 * Provides the opener of the context
 	 *
-	 * @return the {@link java.lang.Class} of the {@link abs.api.Opener}
-	 *         of the context
+	 * @return the {@link abs.api.Opener} of the context
 	 */
-	Class<? extends Opener> getOpener();
+	Opener getOpener();
 
 	/**
-	 * Provides the type of the inbox(es) of the context
+	 * Provides the inbox(es) of the context
 	 *
-	 * @return the {@link java.lang.Class} of the {@link abs.api.Inbox}
-	 *         of the context
+	 * @return the {@link abs.api.Inbox} of the context
 	 */
-	Class<? extends Inbox> getInbox();
+	Inbox getInbox();
 
 	/**
 	 * Provides the type of notary of the context
@@ -70,8 +68,8 @@ public interface Configuration {
 	static class ConfigurationBuilder {
 
 		private Router envelopeRouter = null;
-		private Class<? extends Opener> envelopeOpenerClass = DefaultOpener.class;
-		private Class<? extends Inbox> inboxClass = AsyncInbox.class;
+		private Opener envelopeOpener = null;
+		private Inbox inbox = new AsyncInbox();
 		private Class<? extends Notary> notaryClass = LocalNotary.class;
 		private ReferenceFactory referenceFactory = ReferenceFactory.DEFAULT;
 
@@ -83,13 +81,13 @@ public interface Configuration {
 			return this;
 		}
 
-		public ConfigurationBuilder withEnvelopeOpener(Class<? extends Opener> opener) {
-			this.envelopeOpenerClass = opener;
+		public ConfigurationBuilder withEnvelopeOpener(Opener opener) {
+			this.envelopeOpener = opener;
 			return this;
 		}
 
-		public ConfigurationBuilder withInbox(Class<? extends Inbox> inbox) {
-			this.inboxClass = inbox;
+		public ConfigurationBuilder withInbox(Inbox inbox) {
+			this.inbox = inbox;
 			return this;
 		}
 
@@ -104,25 +102,24 @@ public interface Configuration {
 		}
 
 		public Configuration build() {
-			return new SimpleConfiguration(envelopeRouter, envelopeOpenerClass, inboxClass,
-					notaryClass, referenceFactory);
+			return new SimpleConfiguration(envelopeRouter, envelopeOpener, inbox, notaryClass,
+					referenceFactory);
 		}
 
 		private static class SimpleConfiguration implements Configuration {
 
 			private final Router envelopeRouter;
-			private final Class<? extends Opener> envelopeOpenerClass;
-			private final Class<? extends Inbox> inboxClass;
+			private final Opener envelopeOpener;
+			private final Inbox inbox;
 			private final Class<? extends Notary> notaryClass;
 			private final ReferenceFactory referenceFactory;
 
-			public SimpleConfiguration(Router envelopeRouter,
-					Class<? extends Opener> envelopeOpenerClass,
-					Class<? extends Inbox> inboxClass, Class<? extends Notary> notaryClass,
+			public SimpleConfiguration(Router envelopeRouter, Opener envelopeOpener,
+					Inbox inbox, Class<? extends Notary> notaryClass,
 					ReferenceFactory referenceFactory) {
 				this.envelopeRouter = envelopeRouter;
-				this.envelopeOpenerClass = envelopeOpenerClass;
-				this.inboxClass = inboxClass;
+				this.envelopeOpener = envelopeOpener;
+				this.inbox = inbox;
 				this.notaryClass = notaryClass;
 				this.referenceFactory = referenceFactory;
 			}
@@ -133,13 +130,13 @@ public interface Configuration {
 			}
 
 			@Override
-			public Class<? extends Opener> getOpener() {
-				return this.envelopeOpenerClass;
+			public Opener getOpener() {
+				return this.envelopeOpener;
 			}
 
 			@Override
-			public Class<? extends Inbox> getInbox() {
-				return this.inboxClass;
+			public Inbox getInbox() {
+				return this.inbox;
 			}
 
 			@Override

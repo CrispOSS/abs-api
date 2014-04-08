@@ -9,11 +9,8 @@ package abs.api;
  */
 public class SystemContext implements Context, Contextual {
 
+	private static final Object MUTEX = new Object();
 	private static Context context;
-
-	static {
-		context = new LocalContext();
-	}
 
 	public static Context context() {
 		return context;
@@ -65,7 +62,7 @@ public class SystemContext implements Context, Contextual {
 
 	@Override
 	public void bind(Context context) {
-		synchronized (SystemContext.context) {
+		synchronized (MUTEX) {
 			SystemContext.context = context;
 		}
 	}

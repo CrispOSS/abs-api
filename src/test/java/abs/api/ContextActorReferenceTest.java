@@ -32,7 +32,8 @@ public class ContextActorReferenceTest {
 
 		Envelope envelope = new SimpleEnvelope(context.reference(objA),
 				context.reference(objB), method);
-		AbstractInbox inbox = new AbstractInbox(context);
+		AbstractInbox inbox = new AbstractInbox();
+		inbox.bind(context);
 		inbox.onOpen(envelope, null, null);
 		assertEquals(a.name(), b.sender().name());
 	}

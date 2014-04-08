@@ -22,6 +22,8 @@ import javax.annotation.PostConstruct;
  */
 public class LocalContext implements Context {
 
+	private final SystemContext systemContext;
+
 	private final Configuration configuration;
 	private Router router;
 	private Opener opener;
@@ -51,6 +53,8 @@ public class LocalContext implements Context {
 		this.configuration = configuration;
 		try {
 			initialize();
+			systemContext = new SystemContext();
+			systemContext.bind(this);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -76,30 +80,33 @@ public class LocalContext implements Context {
 			}
 		}
 
-		ServiceLoader<Opener> openerLoader = ServiceLoader.load(Opener.class);
-		for (Iterator<Opener> it = openerLoader.iterator(); it.hasNext();) {
-			Opener opener = it.next();
-			if (opener.getClass() == configuration.getOpener()
-					|| configuration.getOpener().isAssignableFrom(opener.getClass())) {
+		if (configuration.getOpener() != null) {
+			this.opener = configuration.getOpener();
+		} else {
+			ServiceLoader<Opener> openerLoader = ServiceLoader.load(Opener.class);
+			for (Iterator<Opener> it = openerLoader.iterator(); it.hasNext();) {
+				Opener opener = it.next();
 				this.opener = opener;
 				break;
 			}
-		}
-		if (this.opener == null) {
-			this.opener = new DefaultOpener();
+			if (this.opener == null) {
+				this.opener = new DefaultOpener();
+			}
 		}
 
-		ServiceLoader<Inbox> inboxlLoader = ServiceLoader.load(Inbox.class);
-		for (Iterator<Inbox> it = inboxlLoader.iterator(); it.hasNext();) {
-			Inbox inbox = it.next();
-			if (inbox.getClass() == configuration.getInbox()
-					|| configuration.getInbox().isAssignableFrom(inbox.getClass())) {
+		if (configuration.getInbox() != null) {
+			this.inbox = configuration.getInbox();
+		} else {
+			ServiceLoader<Inbox> inboxlLoader = ServiceLoader.load(Inbox.class);
+			for (Iterator<Inbox> it = inboxlLoader.iterator(); it.hasNext();) {
+				Inbox inbox = it.next();
 				this.inbox = inbox;
 				break;
 			}
-		}
-		if (this.inbox == null) {
-			this.inbox = new DispatchInbox(this, executor);
+			if (this.inbox == null) {
+				this.inbox = new DispatchInbox(executor);
+				this.inbox.bind(this);
+			}
 		}
 
 		ServiceLoader<Notary> notaryLoader = ServiceLoader.load(Notary.class);

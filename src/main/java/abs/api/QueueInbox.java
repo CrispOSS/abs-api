@@ -22,14 +22,10 @@ public class QueueInbox extends AbstractInbox {
 	 * Constructor for QueueInbox.
 	 * </p>
 	 *
-	 * @param context
-	 *            a {@link abs.api.Context} object.
 	 * @param executor
-	 *            a {@link java.util.concurrent.ExecutorService}
-	 *            object.
+	 *            a {@link java.util.concurrent.ExecutorService} object.
 	 */
-	public QueueInbox(Context context, ExecutorService executor) {
-		super(context);
+	public QueueInbox(ExecutorService executor) {
 		this.opener = new QueueOpener(new PriorityBlockingQueue<>(4096), executor);
 	}
 
