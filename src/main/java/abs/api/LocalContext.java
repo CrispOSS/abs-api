@@ -79,6 +79,7 @@ public class LocalContext implements Context {
 				this.router = new LocalRouter(this);
 			}
 		}
+		this.router.bind(this);
 
 		if (configuration.getOpener() != null) {
 			this.opener = configuration.getOpener();
@@ -105,9 +106,9 @@ public class LocalContext implements Context {
 			}
 			if (this.inbox == null) {
 				this.inbox = new DispatchInbox(executor);
-				this.inbox.bind(this);
 			}
 		}
+		this.inbox.bind(this);
 
 		ServiceLoader<Notary> notaryLoader = ServiceLoader.load(Notary.class);
 		for (Iterator<Notary> it = notaryLoader.iterator(); it.hasNext();) {

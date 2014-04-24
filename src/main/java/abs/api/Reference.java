@@ -1,7 +1,10 @@
 package abs.api;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * A reference encapsulate a serializable and comparable
@@ -32,6 +35,33 @@ public interface Reference extends Serializable, Comparable<Reference> {
 	@Override
 	default int compareTo(Reference o) {
 		return name().compareTo(o.name());
+	}
+
+	/**
+	 * Encode an instance of a reference using {@link URLEncoder}.
+	 * 
+	 * @param ref
+	 *            the reference to be encoded.
+	 * @return the encoded reference
+	 * @throws UnsupportedEncodingException
+	 *             see {@link URLEncoder#encode(String, String)}
+	 */
+	public static String encode(Reference ref) throws UnsupportedEncodingException {
+		return URLEncoder.encode(ref.name().toASCIIString(), "UTF-8");
+	}
+
+	/**
+	 * Decode an instance of reference with provided text using
+	 * {@link URLDecoder}.
+	 * 
+	 * @param text
+	 *            the string to be decoded
+	 * @return an instance of a {@link Reference}
+	 * @throws UnsupportedEncodingException
+	 *             see {@link URLDecoder#decode(String, String)}
+	 */
+	public static Reference decode(String text) throws UnsupportedEncodingException {
+		return Reference.from(URLDecoder.decode(text, "UTF-8"));
 	}
 
 	/**
