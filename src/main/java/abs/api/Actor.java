@@ -123,7 +123,7 @@ public interface Actor extends Reference, Comparable<Reference> {
 	 *         causes of the exception to identify the reasons.
 	 */
 	default <V> Future<V> ask(Actor to, Object message) {
-		final Actor receiver = NOBODY.equals(to) ? (Actor) context().reference(to) : to;
+		final Actor receiver = NOBODY.equals(to) ? (Actor) reference(to) : to;
 		final Envelope envelope = new SimpleEnvelope(self(), receiver, message);
 		ForkJoinPool.commonPool().execute(() -> context().router().route(envelope));
 		return envelope.response();
@@ -198,7 +198,7 @@ public interface Actor extends Reference, Comparable<Reference> {
 		if (this instanceof ContextActor) {
 			return this;
 		}
-		return context().reference(this);
+		return reference(this);
 	}
 
 	/**
@@ -232,6 +232,34 @@ public interface Actor extends Reference, Comparable<Reference> {
 			// Ignore
 		}
 		return NOBODY;
+	}
+	
+	/**
+	 * Delegates to {@link Context#object(Reference)}.
+	 * 
+	 * @see Context#object(Reference)
+	 * 
+	 * @param <T>
+	 *            the expected type of the object
+	 * @param reference
+	 *            the reference of the object
+	 * @return See {@link Context#object(Reference)}
+	 */
+	default <T> T object(Reference reference) {
+		return context().object(reference);
+	}
+	
+	/**
+	 * Delegates to {@link Context#reference(Object)}.
+	 * 
+	 * @see Context#reference(Object)
+	 * 
+	 * @param object
+	 *            the object to find the reference for
+	 * @return the reference of the object or {@code null}
+	 */
+	default Reference reference(Object object) {
+		return context().reference(object);
 	}
 
 	/**

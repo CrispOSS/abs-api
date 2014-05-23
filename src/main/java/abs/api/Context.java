@@ -101,6 +101,22 @@ public interface Context extends Lifecycle {
 	}
 	
 	/**
+	 * Resolves an object by a given reference.
+	 * 
+	 * @param <T>
+	 *            the type of the object that is expected to be
+	 *            registered with the reference
+	 * @param reference
+	 *            the reference of the object
+	 * @return the object resolved in the context or {@code null} if not
+	 *         registered. This may also lead to an exception of
+	 *         {@link ClassCastException} if the wrong is expected.
+	 */
+	default <T> T object(Reference reference) {
+		return (T) notary().get(reference);
+	}
+	
+	/**
 	 * A facility method that allows to send a message to an actor
 	 * without being in a context or an actor. The sender of the message
 	 * will be {@link Actor#NOBODY} which means that if the recipient
