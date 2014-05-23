@@ -1,5 +1,7 @@
 package abs.api;
 
+import java.util.concurrent.Future;
+
 /**
  * A context provides a set of interfaces that allows regulating
  * messages among actor references. The ingredient parts of a context
@@ -96,6 +98,28 @@ public interface Context extends Lifecycle {
 	 */
 	default Reference reference(Object object) {
 		return notary().get(object);
+	}
+	
+	/**
+	 * A facility method that allows to send a message to an actor
+	 * without being in a context or an actor. The sender of the message
+	 * will be {@link Actor#NOBODY} which means that if the recipient
+	 * actor uses {@link Actor#sender()}, it leads an exception because
+	 * the sender is not known.
+	 * 
+	 * @see Actor#send(Reference, Object)
+	 * 
+	 * @param to
+	 *            the recipient actor reference
+	 * @param message
+	 *            the message
+	 * @param <V>
+	 *            the parameter type that defines the result type of the
+	 *            message
+	 * @return the result of the message as a future
+	 */
+	default <V> Future<V> send(Reference to, Object message) {
+		return Actor.NOBODY.send(to, message);
 	}
 
 }
