@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.abs-models.abs-api</groupId>
+	<groupId>abs.api</groupId>
 	<name>ABS Async Java 8 API</name>
 	<artifactId>abs-api</artifactId>
 	<version>1.0-SNAPSHOT</version>
