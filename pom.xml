@@ -52,8 +52,8 @@
 
 	<scm>
 		<url>https://github.com/CrispOSS/abs-api.git</url>
-		<connection>https://github.com/CrispOSS/abs-api.git</connection>
-		<developerConnection>git@github.com:CrispOSS/abs-api.git</developerConnection>
+		<connection>scm:git:https://github.com/CrispOSS/abs-api.git</connection>
+		<developerConnection>scm:git:git@github.com:CrispOSS/abs-api.git</developerConnection>
 	</scm>
 
 </project>
