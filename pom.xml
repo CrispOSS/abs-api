@@ -4,11 +4,19 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>abs.api</groupId>
-	<name>ABS Async Java 8 API</name>
+	<groupId>com.github.crisposs</groupId>
+	<name>ABS API</name>
 	<artifactId>abs-api</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<url>https://github.com/CrispOSS/abs-api</url>
+
+	<parent>
+		<groupId>com.github.crisposs</groupId>
+		<artifactId>abs-api-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../abs-api-parent</relativePath>
+	</parent>
 
 	<licenses>
 		<license>
@@ -20,8 +28,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.docs.directory>${project.build.directory}/docs</project.docs.directory>
-
-		<version.junit>4.11</version.junit>
 	</properties>
 
 	<build>
@@ -29,33 +35,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
-				<configuration>
-					<outputDirectory>${project.docs.directory}/apidocs</outputDirectory>
-					<tags>
-						<tag>
-							<name>implSpec</name>
-						</tag>
-					</tags>
-				</configuration>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase>install</phase>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -64,7 +47,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${version.junit}</version>
 		</dependency>
 	</dependencies>
 
@@ -73,11 +55,6 @@
 		<connection>https://github.com/CrispOSS/abs-api.git</connection>
 		<developerConnection>git@github.com:CrispOSS/abs-api.git</developerConnection>
 	</scm>
-
-	<ciManagement>
-		<system>Jenkins</system>
-		<url>https://envisage.ifi.uio.no:8080/jenkins/job/abs-api</url>
-	</ciManagement>
 
 </project>
 
