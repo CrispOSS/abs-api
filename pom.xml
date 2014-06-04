@@ -14,6 +14,7 @@
 		<groupId>com.github.crisposs</groupId>
 		<artifactId>abs-api-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../abs-api-parent</relativePath>
 	</parent>
 
 	<licenses>
