@@ -6,14 +6,14 @@
 	<groupId>com.github.crisposs</groupId>
 	<name>ABS API</name>
 	<artifactId>abs-api</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/CrispOSS/abs-api</url>
 
 	<parent>
 		<groupId>com.github.crisposs</groupId>
 		<artifactId>abs-api-parent</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 
 	<licenses>
